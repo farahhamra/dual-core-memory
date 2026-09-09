@@ -31,7 +31,7 @@ def save_candidates(candidates: List[Dict[str, Any]]) -> None:
 
 def generate_candidate_id(title: str = "") -> str:
     """Generate a clean slug candidate ID."""
-    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:40]
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:80]
     return f"cand-{slug or int(datetime.now().timestamp())}"
 
 def record_candidate(

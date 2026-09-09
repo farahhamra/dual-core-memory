@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """
-Objective 4-Way Retrieval Ablation Benchmark
-Compares retrieval accuracy across:
+Ranking Formula Scenario Analysis (Synthetic Stress-Testing)
+Evaluates how the mathematical penalty terms (confidence damping and 30-day temporal decay)
+behave when raw semantic similarity favors an unconfirmed, low-confidence, or obsolete record:
   1. Cosine Only
   2. Cosine x Trust
   3. Cosine x Freshness
   4. Cosine x Trust x Freshness (Full Dual-Core Model)
 
-Metrics reported: Precision@1, MRR (Mean Reciprocal Rank), and Recall@3.
-Includes both edge-case distractor scenarios and neutral control cases.
+Note: This script validates the mathematical properties of the ranking formula across
+constructed scenario conditions, demonstrating why cosine similarity alone is vulnerable to
+distractors with high keyword overlap.
 """
 
 import sys
@@ -360,7 +362,7 @@ def main():
     results = evaluate_models(dataset)
 
     print("\n" + "=" * 85)
-    print("FINAL ABLATION BENCHMARK RESULTS (N = 8 Scenarios)")
+    print("RANKING FORMULA SCENARIO ANALYSIS (N = 8 Scenarios)")
     print("=" * 85)
     print(f"{'Ranking Model':<42} | {'Precision@1':<13} | {'MRR':<10} | {'Recall@3':<10}")
     print("-" * 85)
@@ -372,10 +374,10 @@ def main():
             f"{metrics['recall_at_3']:>5.1f}%"
         )
     print("=" * 85)
-    print("Interpretation:")
-    print("  * Control cases (5 & 6) proved plain cosine works well when facts are clean.")
-    print("  * Edge cases (1, 2, 3, 4, 7, 8) proved plain cosine consistently prefers stale/unconfirmed hacks due to high raw keyword overlap.")
-    print("  * Dual-Core (Sim x Trust x Freshness) dynamically suppresses unconfirmed noise and stale workarounds without harming clean queries.\n")
+    print("Scenario Analysis Takeaways:")
+    print("  * Controls (5 & 6): Plain cosine works as expected when candidates are equally clean.")
+    print("  * Distractor stress-tests (1-4, 7, 8): Plain cosine selects stale/unconfirmed records due to keyword overlap.")
+    print("  * Full Formula (Sim x Trust x Freshness): Mathematically demotes stale/unconfirmed records without false penalties.\n")
 
 if __name__ == "__main__":
     main()

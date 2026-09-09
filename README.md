@@ -40,7 +40,8 @@ dual-core-memory/
         ├── vector-memory/                   # LanceDB semantic vector storage
         ├── iterative-retrieval/             # Progressive multi-hop context refinement
         ├── eval-harness/                    # Eval-Driven Development (EDD) agent testing
-        └── tdd-workflow/                    # Red-Green-Refactor test enforcement
+        ├── tdd-workflow/                    # Red-Green-Refactor test enforcement
+        └── implementation-plan/             # Plan formulation & clarification addons
 ```
 
 ---
@@ -116,20 +117,20 @@ python cli.py stats
 
 ---
 
-## Empirical Benchmarks & Evaluation
+## Design Validation & Verification Scenarios
 
-To ensure this architecture delivers measurable advantages over standard retrieval, the repository includes two objective evaluation suites.
+To verify that the ranking math and self-learning lifecycle function as intended, the repository provides two dedicated verification suites.
 
-### 1. 4-Way Retrieval Ablation Benchmark
+### 1. Ranking Formula Scenario Analysis (Stress-Testing)
 
-Evaluates whether the dynamic ranking formula ($\text{Similarity} \times \text{Trust} \times \text{Freshness}$) improves retrieval over plain cosine similarity across 8 balanced scenarios (including neutral control queries where plain cosine can win):
+This script validates the mathematical sensitivity of the penalty terms. It models 8 defined scenarios where raw semantic similarity happens to favor an unconfirmed or stale distractor, demonstrating how the Trust score and Freshness decay terms mathematically suppress distractors without penalizing clean control queries:
 
 ```powershell
 cd .agents/skills/vector-memory
 python benchmarks/benchmark_ablation.py
 ```
 
-| Ranking Model | Precision@1 | MRR | Recall@3 | Key Observation |
+| Ranking Model | Precision@1 | MRR | Recall@3 | Scenario Behavior |
 | :--- | :---: | :---: | :---: | :--- |
 | **Cosine Only** | **25.0%** | **0.6250** | 100.0% | Fails on edge cases: stale or unconfirmed hacks have higher keyword overlap. |
 | **Cosine × Trust** | **87.5%** | **0.9375** | 100.0% | Suppresses unconfirmed rumors, but misses expired library patches with high past trust. |
@@ -138,25 +139,27 @@ python benchmarks/benchmark_ablation.py
 
 ---
 
-### 2. 3-Session E2E Self-Learning Evaluation
+### 2. End-to-End Self-Learning Integration Test
 
-Using [`eval-harness`](file:///c:/Backup/WebScout/.agents/skills/eval-harness) principles, this test simulates a live agent through 3 consecutive sessions:
-1. **Session 1 (Naive Agent):** Fails on a complex distributed concurrency bug $\rightarrow$ stages an unconfirmed candidate $\rightarrow$ held at gate (not in LanceDB).
-2. **Session 2 (Reinforcement):** Re-encounter triggers second confirmation $\rightarrow$ Trust Gate automatically promotes to LanceDB.
-3. **Session 3 (Post-Learning):** Standing rule queries memory $\rightarrow$ retrieves confirmed solution at Rank #1 $\rightarrow$ achieves **Pass@1**.
+Using [.agents/skills/eval-harness](.agents/skills/eval-harness) principles, this test runs against the **live LanceDB database** and provisional candidate-gate with assertions at every stage:
+1. **Session 1 (Naive Agent):** Agent fails attempt #1 (deadlock) $\rightarrow$ retries $\rightarrow$ stages unconfirmed candidate $\rightarrow$ **asserted NOT written to LanceDB**.
+2. **Session 2 (Reinforcement):** Re-encounter triggers second confirmation $\rightarrow$ **asserted auto-promoted to LanceDB**.
+3. **Session 3 (Post-Learning):** Standing rule queries memory $\rightarrow$ **asserted correct record retrieved at Rank #1** $\rightarrow$ executes verified fix $\rightarrow$ **asserted Pass@1**.
+
+All metrics below are derived dynamically from live execution counters and assertions:
 
 ```powershell
 cd .agents/skills/vector-memory
 python tests/evals/test_self_learning_loop.py
 ```
 
-| Metric | Before Learning (Session 1) | After Learning (Session 3) | Impact / Delta |
+| Metric | Before Learning (Session 1) | After Learning (Session 3) | Measured Outcome |
 | :--- | :---: | :---: | :---: |
-| **Task Success (Attempt #1)** | **0.0%** | **100.0%** | **+100.0%** |
-| **Pass@1 Rate** | **0.0%** | **100.0%** | **+100.0%** |
-| **Attempts to Solution** | 3 attempts | 1 attempt | **-66.7% effort** |
-| **Relevant Memory Retrieved** | None (Held at gate) | 100% (Rank #1 Confirmed) | Clean retrieval |
-| **Distractor / Noise Retrieval** | Distractor possible | 0% (Suppressed) | Zero false memories |
+| **Task Success Rate** | 100.0% (after 3 tries) | 100.0% (on try #1) | Sustained success |
+| **Pass@1 Rate** | **0.0%** | **100.0%** | **+100.0% first-shot pass** |
+| **Attempts to Solution** | 3 attempts | 1 attempt | **-66.7% trial-and-error** |
+| **Relevant Memory Retrieved** | None (Held at gate) | 100% (Rank #1 Confirmed) | Clean precision |
+| **Distractor Retrieval** | N/A (Unassisted) | 0% (Suppressed) | Zero false memories |
 | **Steps to Solution** | 3 trial-and-error steps | 1 direct step | Immediate resolution |
 
 ---
@@ -168,10 +171,10 @@ python tests/evals/test_self_learning_loop.py
 cd .agents/skills/vector-memory
 python -m unittest discover -s tests -p "test_*.py" -v
 
-# Run 4-way ablation benchmark
+# Run ranking formula scenario analysis
 python benchmarks/benchmark_ablation.py
 
-# Run 3-session E2E self-learning evaluation
+# Run live self-learning integration test
 python tests/evals/test_self_learning_loop.py
 ```
 
