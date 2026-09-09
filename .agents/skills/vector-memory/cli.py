@@ -93,6 +93,7 @@ def main():
     # Command: sync-instincts
     p_sync = subparsers.add_parser("sync-instincts", help="Sync qualified CLv2 instincts (confidence >= 0.70)")
     p_sync.add_argument("--threshold", type=float, default=0.70, help="Confidence threshold (default: 0.70)")
+    p_sync.add_argument("-p", "--project", default="", help="Optional specific project ID to filter by")
     p_sync.add_argument("-t", "--table", default=PROJECT_TABLE, help="Target table")
     p_sync.add_argument("--json", action="store_true", help="Output raw JSON")
 
@@ -182,7 +183,7 @@ def main():
                 print(f"\n{res['message']}\n")
 
         elif args.command == "sync-instincts":
-            res = sync_instincts(threshold=args.threshold, table=args.table)
+            res = sync_instincts(threshold=args.threshold, table=args.table, project_id=args.project)
             if args.json:
                 print(json.dumps(res, indent=2))
             else:
