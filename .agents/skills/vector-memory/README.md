@@ -1,11 +1,12 @@
-# Antigravity Vector Memory Subsystem
+# Antigravity Vector Memory Subsystem (Python)
 
-Local vector-based semantic memory for Antigravity agents powered by Ollama and LanceDB.
+Local vector-based semantic memory for Antigravity agents powered by Ollama and LanceDB in Python.
 
 ## Technology Stack
-- **Database**: [LanceDB](https://lancedb.com/) (`@lancedb/lancedb` v0.37.1) - serverless, zero-daemon, embedded vector database.
+- **Runtime**: Python 3.10+
+- **Database**: [LanceDB](https://lancedb.com/) (`lancedb>=0.17.0`) - serverless, zero-daemon, embedded vector database.
 - **Embedding Model**: Ollama `nomic-embed-text` (768-dimensional float embeddings, running locally on `http://localhost:11434`).
-- **Data Format**: Apache Arrow (`apache-arrow` v18.1.0).
+- **Data Format**: Apache Arrow (`pyarrow>=14.0.0`).
 
 ## Tables
 1. **`project_memory`**: Stores project-specific knowledge (DB schema structures, feature trees, domain business rules, architectural constraints).
@@ -15,64 +16,63 @@ Local vector-based semantic memory for Antigravity agents powered by Ollama and 
 ```text
 vector-memory/
 ├── SKILL.md                          # Antigravity skill specification
-├── README.md                         # Package documentation
-├── package.json                      # npm manifest (scripts, main, bin)
-├── index.js                          # Root proxy re-exporting src/index.js
-├── bin/
-│   └── cli.js                        # Unified CLI runner
-├── src/
-│   ├── index.js                      # Primary library entrypoint
-│   ├── config.js                     # Ollama & LanceDB configuration
-│   ├── db.js                         # LanceDB connection & schemas
-│   ├── embedder.js                   # Ollama embedding generator
-│   ├── search.js                     # Vector similarity search logic
-│   ├── save.js                       # Memory record upserting
-│   ├── update.js                     # In-place memory updates
-│   └── delete.js                     # Record & category deletion
-├── scripts/
-│   └── test.js                       # End-to-end subsystem test suite
+├── README.md                         # Subsystem documentation
+├── requirements.txt                  # Python dependencies (lancedb, pyarrow, requests)
+├── cli.py                            # Unified CLI executable
+├── memory/                           # Core Python package
+│   ├── __init__.py
+│   ├── config.py                     # Local storage paths & Ollama configuration
+│   ├── db.py                         # LanceDB connection & PyArrow schema
+│   ├── embedder.py                   # Ollama embedding client
+│   ├── search.py                     # Semantic search + Trust & Freshness ranking
+│   ├── save.py                       # Memory record upserting with embeddings
+│   ├── candidate_gate.py             # Provisional candidate staging & 2nd-sighting promotion
+│   └── sync_instincts.py             # CLv2 instinct Trust Gate sync
+├── tests/
+│   └── test_memory.py                # Unit test suite
 ├── references/
-│   └── memory-automation-rules.md    # Autonomous execution directives
-└── data/
+│   └── memory-automation-rules.md    # Standing memory rules
+└── data/                             # Local LanceDB storage (git-ignored)
     ├── default_memory.lance/
-    └── project_memory.lance/
+    ├── project_memory.lance/
+    └── provisional-candidates.json
+```
+
+## Setup & Installation
+
+```powershell
+pip install -r requirements.txt
+```
+
+Ensure Ollama is running:
+```powershell
+ollama pull nomic-embed-text
 ```
 
 ## CLI Commands
-Run from the `vector-memory` directory (or use `node <path-to-vector-memory>/bin/cli.js`):
 
 ```powershell
-# Semantic Search
-node bin/cli.js search "RFC 7807 error format"
-node bin/cli.js search "database structure for suppliers" --table project_memory
+# Semantic Search (Rank = Similarity * Trust * Freshness)
+python cli.py search "authentication token validation" --table project_memory
 
 # Save / Upsert Record
-node bin/cli.js save "Zod Validation Pattern" "Request DTO schema validation" --category "best-practice"
-node bin/cli.js save "COA Schema" "Parent-child account hierarchy" --category "db-schema" --table project_memory
+python cli.py save "Database Table: users" "CREATE TABLE users (id INT PRIMARY KEY...)" --category "db-schema"
 
-# Update Record In-Place
-node bin/cli.js update "<record-id>" --content "Updated documentation or schema" --table project_memory
-node bin/cli.js update "<record-id>" --title "New Title" --category "db-schema"
+# Stage Provisional Technical Candidate
+python cli.py record-candidate "Prisma transaction deadlock" "Use interactive transactions with explicit timeout."
 
-# Delete Record
-node bin/cli.js delete "<record-id>"
+# List Staged Candidates
+python cli.py candidates
 
-# Database Overview
-node bin/cli.js stats
+# Sync Qualified CLv2 Instincts (Confidence >= 0.70)
+python cli.py sync-instincts
 
-# Dump Records
-node bin/cli.js dump --table project_memory
-
-# Approach 2 Promotion / Trust Gate (Sync CLv2 instincts >= 0.7 into LanceDB)
-node bin/cli.js sync-instincts
-node bin/cli.js sync-instincts --dry-run
-node bin/cli.js sync-instincts --min-confidence 0.8
+# View Database Table Statistics
+python cli.py stats
 ```
 
 ## Running Tests
-```powershell
-node scripts/test.js
-# or via npm
-npm test
-```
 
+```powershell
+python -m unittest discover -s tests -p "test_*.py" -v
+```

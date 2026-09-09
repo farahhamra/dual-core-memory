@@ -104,101 +104,89 @@ Do not search or save memory for trivial changes such as:
 
 ## 3. Command-Line Reference
 
-Agents can execute these commands directly via `run_command` from the `vector-memory` skill directory (or pointing to `bin/cli.js`):
+Agents can execute these commands directly via `run_command` from the `vector-memory` skill directory:
 
 ### Searching Memory
 ```powershell
 # Search default_memory (default)
-node bin/cli.js search "Zod request validation pattern"
+python cli.py search "Zod request validation pattern"
 
 # Search project_memory (project-specific schemas, feature trees, domain rules)
-node bin/cli.js search "chart of accounts schema" --table project_memory
+python cli.py search "chart of accounts schema" --table project_memory
 
 # Search with specific limit and category filter
-node bin/cli.js search "Prisma relations" --table project_memory --category "db-schema" --limit 3
+python cli.py search "Prisma relations" --table project_memory --category "db-schema" --limit 3
 
 # Search across all tables simultaneously
-node bin/cli.js search "database indexing strategy" --all
+python cli.py search "database indexing strategy" --table all
 
 # Output pure JSON for programmatic parsing
-node bin/cli.js search "suppliers query" --table project_memory --json
+python cli.py search "suppliers query" --table project_memory --json
 ```
 
 ### Saving / Upserting Memory
 ```powershell
-# Save to default_memory (default)
-node bin/cli.js save "RFC 7807 Error Envelope" "API errors should return type, title, status, and detail with field errors." --category "best-practice"
+# Save to default_memory
+python cli.py save "RFC 7807 Error Envelope" "API errors should return type, title, status, and detail with field errors." --table default_memory --category "best-practice"
 
-# Save project schema memory
-node bin/cli.js save "Account Model Hierarchy" "Account has self-relation parentId -> Account.id. Sub-accounts inherit parent currency." --category "db-schema" --table project_memory
+# Save project schema memory (defaults to project_memory)
+python cli.py save "Account Model Hierarchy" "Account has self-relation parentId -> Account.id. Sub-accounts inherit parent currency." --category "db-schema"
 
 # Save feature tree node
-node bin/cli.js save "Sales Module Feature Tree" "Sales Root: Quotations -> Sales Orders -> Delivery Notes -> Sales Invoices." --category "feature-tree" --table project_memory
+python cli.py save "Sales Module Feature Tree" "Sales Root: Quotations -> Sales Orders -> Delivery Notes -> Sales Invoices." --category "feature-tree"
 
 # Save with custom ID and structured JSON metadata
-node bin/cli.js save "Chart of Accounts Hierarchy" "Hierarchical accounts with CTE balance aggregation." --id "coa-schema-v1" --category "db-schema" --meta '{"module":"accounting","orm":"prisma"}' --table project_memory
+python cli.py save "Chart of Accounts Hierarchy" "Hierarchical accounts with CTE balance aggregation." --id "coa-schema-v1" --category "db-schema" --meta '{"module":"accounting","orm":"prisma"}'
 ```
 
-### Updating Memory In-Place
+### Provisional Candidate Gate (Error Workarounds & Technical Fixes)
 ```powershell
-# Update content of an existing record in project_memory
-node bin/cli.js update "db-table-purchase_orders" --content "Updated DDL with currency_id" --table project_memory
+# List staged candidates
+python cli.py candidates
 
-# Update title and merge metadata
-node bin/cli.js update "coa-schema-v1" --title "Enhanced Chart of Accounts" --meta '{"version":2}' --table project_memory
+# Record a technical candidate (1st sighting = staged unconfirmed; 2nd sighting = auto-promoted)
+python cli.py record-candidate "Prisma transaction deadlock workaround" "Use interactive transactions with explicit timeout 10000ms."
+
+# Manually confirm and promote a staged candidate
+python cli.py confirm-candidate "cand-prisma-transaction-deadlock-workaround"
 ```
 
-### Deleting Memory
+### Syncing Instincts from Continuous Learning v2
 ```powershell
-# Delete record from default_memory (default)
-node bin/cli.js delete "<id_or_slug>"
-
-# Delete record from project_memory
-node bin/cli.js delete "<id_or_slug>" --table project_memory
-
-# Delete all temporary or outdated records by category
-node bin/cli.js delete --category "deprecated" --table project_memory
+# Promote CLv2 instincts with confidence >= 0.70 into LanceDB
+python cli.py sync-instincts
 ```
 
-### Inspecting Memory Overview
+### Inspecting Table Statistics
 ```powershell
-# Display table row counts and model overview
-node bin/cli.js stats
-
-# Dump records from default_memory (default) or project_memory
-node bin/cli.js dump
-node bin/cli.js dump --table project_memory
+# Display table row counts
+python cli.py stats
 ```
 
 ---
 
-## 4. Programmatic Node.js Usage
+## 4. Programmatic Python Usage
 
 Agents or internal automation scripts can also import functions directly:
 
-```javascript
-import { search, save, updateMemory, deleteMemory, TABLE_NAMES } from './src/index.js';
+```python
+from memory import search, save, record_candidate, sync_instincts, PROJECT_TABLE
 
-// Search
-const results = await search({
-  table: TABLE_NAMES.PROJECT,
-  query: 'inventory warehouse transfer rules',
-  limit: 5,
-});
+# Semantic Search with Trust and Freshness ranking
+results = search("inventory warehouse transfer rules", table=PROJECT_TABLE, limit=5)
 
-// Save
-await save({
-  table: TABLE_NAMES.PROJECT,
-  title: 'Inventory Transfer Rules',
-  content: 'Stock transfer requires source warehouse stock lock before destination credit.',
-  category: 'domain-rule',
-  metadata: { module: 'inventory' },
-});
+# Save/upsert
+save(
+    title="Inventory Transfer Rules",
+    content="Stock transfer requires source warehouse stock lock before destination credit.",
+    category="domain-rule",
+    metadata={"module": "inventory"},
+    table=PROJECT_TABLE,
+)
 
-// Update
-await updateMemory({
-  table: TABLE_NAMES.PROJECT,
-  id: 'db-table-purchase_orders',
-  content: 'Updated DDL schema with currency_id...',
-});
+# Stage technical candidate
+record_candidate(
+    title="Prisma Connection Timeout",
+    content="Set pool_timeout = 20 in datasource config.",
+)
 ```

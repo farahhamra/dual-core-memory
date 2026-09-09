@@ -47,12 +47,11 @@ dual-core-memory/
 ## Installation & Setup
 
 ### 1. Prerequisites
-- **Node.js** (v18 or newer)
+- **Python 3.10+** (single runtime for both Vector Memory and Continuous Learning v2)
 - **Local Ollama** (running locally on port `11434`)
   ```powershell
   ollama pull nomic-embed-text
   ```
-- **Python 3** (for Continuous Learning v2 instinct scripts)
 
 ---
 
@@ -67,10 +66,10 @@ cd dual-core-memory
 
 # 2. Install vector-memory dependencies
 cd .agents/skills/vector-memory
-npm install
+pip install -r requirements.txt
 
 # 3. Verify installation
-npm test
+python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
 ---
@@ -87,7 +86,7 @@ To give any other project this dual-core memory system:
 2. **Install the dependencies**:
    ```powershell
    cd .agents/skills/vector-memory
-   npm install
+   pip install -r requirements.txt
    ```
 3. **Done!** Antigravity IDE and Claude Code automatically detect `.agents/rules/` and `.agents/skills/`.
 
@@ -99,16 +98,19 @@ From `.agents/skills/vector-memory/`:
 
 ```powershell
 # Semantic Search across project memory
-node bin/cli.js search "authentication token validation" --table project_memory
+python cli.py search "authentication token validation" --table project_memory
 
-# Sync qualified CLv2 instincts (confidence >= 0.7) through the Trust Gate
-node bin/cli.js sync-instincts
+# Sync qualified CLv2 instincts (confidence >= 0.70) through the Trust Gate
+python cli.py sync-instincts
 
 # View provisional candidates staged at the gate
-node bin/cli.js candidates
+python cli.py candidates
+
+# Stage a technical workaround candidate
+python cli.py record-candidate "Prisma deadlock workaround" "Use interactive transactions with explicit timeout."
 
 # View LanceDB table statistics
-node bin/cli.js stats
+python cli.py stats
 ```
 
 ---
@@ -116,9 +118,9 @@ node bin/cli.js stats
 ## Verification & Tests
 
 ```powershell
-# Run vector memory tests
+# Run vector memory unit tests
 cd .agents/skills/vector-memory
-npm test
+python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
 ## License

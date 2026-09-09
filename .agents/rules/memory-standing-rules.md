@@ -6,11 +6,11 @@ This rule establishes the operational protocol for memory retrieval and passive 
 Before planning or modifying non-trivial code involving database models, architectural components, API contracts, or domain business rules:
 1. **Always query `vector-memory`** to check for established patterns, existing schemas, and architectural invariants:
    ```powershell
-   node .agents/skills/vector-memory/bin/cli.js search "<query_topic>" --table project_memory
+   python .agents/skills/vector-memory/cli.py search "<query_topic>" --table project_memory
    ```
 2. For universal coding conventions or tooling techniques, query:
    ```powershell
-   node .agents/skills/vector-memory/bin/cli.js search "<query_topic>"
+   python .agents/skills/vector-memory/cli.py search "<query_topic>"
    ```
 3. **Standing Authorization**: Do not ask the user for permission to query memory. Execute the query autonomously and apply relevant findings to your plan or solution.
 
@@ -21,4 +21,4 @@ Before planning or modifying non-trivial code involving database models, archite
 
 ## 3. The Promotion Gate
 1. Temporary workarounds and unconfirmed error fixes must **NOT** be written directly to `project_memory` on first encounter.
-2. Only verified, durable schemas and patterns confirmed by the developer or promoted through the Trust Gate (`sync-instincts.js` with confidence $\ge 0.7$) become permanent memories.
+2. Only verified, durable schemas and patterns confirmed by the developer or promoted through the Trust Gate (`python .agents/skills/vector-memory/cli.py sync-instincts` with confidence $\ge 0.7$) become permanent memories.
