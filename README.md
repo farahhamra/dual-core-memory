@@ -19,7 +19,7 @@ An advanced local AI agent workspace equipped with a **dual-core memory architec
    - Category-specific freshness weighting and trust score ranking:
      $$\text{Rank Score} = \text{Cosine Similarity} \times \text{Trust Score} \times \text{Freshness Weight}$$
 
-3. **The Universal Trust Gate (`sync-instincts.js` & `candidate-gate.js`)**
+3. **The Universal Trust Gate (`memory/sync_instincts.py` & `memory/candidate_gate.py`)**
    - **Procedural Habits:** Promoted into LanceDB once confidence $\ge 0.7$.
    - **Technical Workarounds:** Staged provisionally as `unconfirmed` on first sighting, automatically promoted to LanceDB on second confirmation.
 
@@ -30,7 +30,7 @@ An advanced local AI agent workspace equipped with a **dual-core memory architec
 ```text
 dual-core-memory/
 ├── README.md                                # Repository overview
-├── .gitignore                               # Ignore rules (node_modules, local LanceDB binaries)
+├── .gitignore                               # Ignore rules (__pycache__, local LanceDB binaries)
 └── .agents/
     ├── rules/
     │   └── memory-standing-rules.md         # Standing operational memory contract

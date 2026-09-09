@@ -45,7 +45,7 @@ When an error is followed by a fix:
 - Next few tool calls fix it
 - Same error type resolved similarly
 
-→ **Gated Technical Routing:** Route candidate technical solutions through the **Provisional Staging Gate** (`node .agents/skills/vector-memory/bin/cli.js record-candidate "<title>" "<solution>"`).
+→ **Gated Technical Routing:** Route candidate technical solutions through the **Provisional Staging Gate** (`python .agents/skills/vector-memory/cli.py record-candidate "<title>" "<solution>"`).
 - 1st sighting is held as `unconfirmed` (reinforcement = 1).
 - It is **NEVER** written directly into LanceDB on first encounter.
 - Only upon a 2nd confirming sighting or manual developer confirmation is it promoted to LanceDB as a confirmed episodic memory!
