@@ -44,6 +44,55 @@ dual-core-memory/
 
 ---
 
+## Installation & Setup
+
+### 1. Prerequisites
+- **Node.js** (v18 or newer)
+- **Local Ollama** (running locally on port `11434`)
+  ```powershell
+  ollama pull nomic-embed-text
+  ```
+- **Python 3** (for Continuous Learning v2 instinct scripts)
+
+---
+
+### 2. Setup in This Workspace (Fresh Clone)
+
+If cloning this repository onto a new machine:
+
+```powershell
+# 1. Clone the repository
+git clone https://github.com/farahhamra/dual-core-memory.git
+cd dual-core-memory
+
+# 2. Install vector-memory dependencies
+cd .agents/skills/vector-memory
+npm install
+
+# 3. Verify installation
+npm test
+```
+
+---
+
+### 3. Installing Into ANOTHER Project
+
+To give any other project this dual-core memory system:
+
+1. **Copy the `.agents/` folder** into the root of your target project:
+   ```powershell
+   # From your target project root:
+   Copy-Item -Path "path\to\dual-core-memory\.agents" -Destination "." -Recurse
+   ```
+2. **Install the dependencies**:
+   ```powershell
+   cd .agents/skills/vector-memory
+   npm install
+   ```
+3. **Done!** Antigravity IDE and Claude Code automatically detect `.agents/rules/` and `.agents/skills/`.
+
+---
+
 ## Quick Start: Vector Memory CLI
 
 From `.agents/skills/vector-memory/`:
