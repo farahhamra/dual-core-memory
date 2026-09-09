@@ -6,10 +6,11 @@ metadata:
   origin: ECC
 ---
 
-# Continuous Learning v2.1 - Instinct
--Based Architecture
+# Continuous Learning v2.1 - Instinct-Based Architecture
 
-An advanced learning system that turns your Claude Code sessions into reusable knowledge through atomic "instincts" - small learned behaviors with confidence scoring.
+An advanced learning system that turns your sessions into reusable knowledge through atomic "instincts" - small learned behaviors with confidence scoring.
+
+> Continuous Learning v2 is derived from [Everything Claude Code (ECC)](https://github.com/affaan-m/ecc) by Affaan Mustafa, released under the MIT License.
 
 **v2.1** adds **project-scoped instincts** — React patterns stay in your React project, Python conventions stay in your Python project, and universal patterns (like "always validate input") are shared globally.
 
@@ -240,19 +241,27 @@ Other behavior (observation capture, instinct thresholds, project scoping, promo
 
 ### Observer platform support
 
-The background observer requires WSL2, Linux, or macOS. On native Windows
-(Git Bash / MSYS2) it starts and reports success, but the process is killed
-when the spawning hook exits and its Job Object closes, so no analysis ever
-runs — setting `observer.enabled: true` there is effectively a no-op
-(see issue #2489).
+The background daemon hook (`observe.sh`) requires WSL2, Linux, or macOS. On native Windows
+(Git Bash / MSYS2), background processes spawned via `nohup ... &` are terminated when the
+parent hook exits and its Windows Job Object closes (issue #2489). Furthermore, Antigravity
+tool execution does not trigger Claude Code lifecycle hooks, and Claude CLI is absent.
 
-`observe.sh` detects this on the following hook invocation and writes an
-explanatory warning to `observer-start.log` once the observer has failed to
-survive several times in a row.
+#### Native Windows Pipeline (`observe.py`)
 
-| Env var | Default | Description |
-|---------|---------|-------------|
-| `ECC_OBSERVER_NOSURVIVE_WARN_AFTER` | `3` | Consecutive non-survivals before the warning is logged |
+On Native Windows, continuous learning operates as a **milestone/post-hoc batch mining pipeline (System 2)**:
+
+```powershell
+python .agents/skills/continuous-learning-v2/scripts/observe.py
+```
+
+- **Operational Reality**: Run explicitly at task milestones, upon invoking `/learn`, or before session completion.
+- **Strict Schema Validation**: Parses Antigravity transcripts (`transcript.jsonl`) with loud schema errors if the internal format deviates.
+- **Negative Filtering**: Rejects conversational stop-phrases (0% false positives on *"never mind"*, *"as always"*, questions).
+- **Unified Two-Sighting Gate**:
+  - 1st Sighting: Scored at `0.65` (staged in homunculus, held below `0.70` gate).
+  - 2nd Sighting (Reinforced): Boosted to `0.85` (promoted past `0.70` gate).
+- **Sanitized Project Scoping**: Scoped using SHA-256 directory hashes, never baking local machine paths into instinct headers.
+- **Immediate Invariants (Bridge 1)**: For confirmed architectural invariants, save directly via `python .agents/skills/vector-memory/cli.py save ...`.
 
 ## File Structure
 
@@ -368,10 +377,15 @@ v2.1 is fully compatible with v2.0 and v1:
 
 ## Related
 
+- [Everything Claude Code (affaan-m/ecc)](https://github.com/affaan-m/ecc) - Upstream source and repository by Affaan Mustafa
 - [ECC-Tools GitHub App](https://github.com/apps/ecc-tools) - Generate instincts from repo history
 - Homunculus - Community project that inspired the v2 instinct-based architecture (atomic observations, confidence scoring, instinct evolution pipeline)
 - [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Continuous learning section
 
+## License
+
+Derived from [affaan-m/ecc](https://github.com/affaan-m/ecc) under the MIT License. Copyright (c) 2025-2026 Affaan Mustafa. See [LICENSE](LICENSE) for full details.
+
 ---
 
-*Instinct-based learning: teaching Claude your patterns, one project at a time.*
+*Instinct-based learning: teaching agents your patterns, one project at a time.*

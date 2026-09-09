@@ -9,9 +9,11 @@ An advanced local AI agent workspace equipped with a **dual-core memory architec
 `dual-core-memory` merges two specialized cognitive subsystems to provide complete memory coverage:
 
 1. **System 1: Procedural Memory (`continuous-learning-v2`)**
-   - Passive observation via deterministic `PreToolUse` and `PostToolUse` lifecycle hooks.
+   - Derived from [Everything Claude Code (ECC)](https://github.com/affaan-m/ecc) by Affaan Mustafa (MIT License).
+   - **Linux / macOS**: Passive observation via deterministic `PreToolUse` and `PostToolUse` lifecycle hooks (`observe.sh`).
+   - **Native Windows**: Milestone/post-hoc batch mining pipeline (`observe.py`) resolving Windows Job Object termination.
    - Self-adjusting confidence scoring (`0.3` to `0.9`) with natural decay and reinforcement.
-   - Scoped per Git remote repository to prevent cross-project habit contamination.
+   - Scoped per Git remote repository (or directory SHA-256) to prevent cross-project habit contamination.
 
 2. **System 2: Declarative Memory (`vector-memory`)**
    - High-speed, local embedded vector search powered by [LanceDB](https://lancedb.com/) and Apache Arrow.
@@ -20,8 +22,10 @@ An advanced local AI agent workspace equipped with a **dual-core memory architec
      $$\text{Rank Score} = \text{Cosine Similarity} \times \text{Trust Score} \times \text{Freshness Weight}$$
 
 3. **The Universal Trust Gate (`memory/sync_instincts.py` & `memory/candidate_gate.py`)**
-   - **Procedural Habits:** Promoted into LanceDB once confidence $\ge 0.7$.
-   - **Technical Workarounds:** Staged provisionally as `unconfirmed` on first sighting, automatically promoted to LanceDB on second confirmation.
+   - **Symmetric Two-Sighting Gate**:
+     - **Procedural Habits:** Staged at `0.65` on first sighting; promoted into LanceDB upon reinforcement to `0.85` (confidence $\ge 0.70$).
+     - **Technical Workarounds:** Staged provisionally as `unconfirmed` on first sighting; automatically promoted to LanceDB on second confirmation.
+   - **Direct Developer Invariants (Bridge 1):** Verified rules explicitly saved via `cli.py save` bypass the gate immediately as authoritative ground truth.
 
 ---
 
@@ -167,6 +171,9 @@ python tests/evals/test_self_learning_loop.py
 ## Verification & Tests
 
 ```powershell
+# Run continuous learning observer TDD test suite
+python -m unittest discover -s .agents/skills/continuous-learning-v2/scripts -p "test_observe.py" -v
+
 # Run vector memory unit tests
 cd .agents/skills/vector-memory
 python -m unittest discover -s tests -p "test_*.py" -v
@@ -181,3 +188,5 @@ python tests/evals/test_self_learning_loop.py
 ## License
 
 This project is open source and available under the [MIT License](LICENSE) © 2026 Farah Hamra.
+
+The `continuous-learning-v2` subsystem is derived from [Everything Claude Code (ECC)](https://github.com/affaan-m/ecc) by Affaan Mustafa, licensed under the MIT License (see [.agents/skills/continuous-learning-v2/LICENSE](.agents/skills/continuous-learning-v2/LICENSE)).
