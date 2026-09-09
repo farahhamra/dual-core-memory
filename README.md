@@ -30,7 +30,6 @@ An advanced local AI agent workspace equipped with a **dual-core memory architec
 ```text
 dual-core-memory/
 ├── README.md                                # Repository overview
-├── hybird.md                                # Deep architectural specification
 ├── .gitignore                               # Ignore rules (node_modules, local LanceDB binaries)
 └── .agents/
     ├── rules/
