@@ -1,0 +1,37 @@
+{
+  "name": "antigravity-vector-memory",
+  "version": "1.0.0",
+  "description": "Local vector-based memory for Antigravity agents powered by Ollama and LanceDB",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "memory": "./bin/cli.js",
+    "memory-search": "./src/search.js",
+    "memory-save": "./src/save.js",
+    "memory-update": "./src/update.js",
+    "memory-delete": "./src/delete.js"
+  },
+  "scripts": {
+    "cli": "node bin/cli.js",
+    "stats": "node bin/cli.js stats",
+    "search": "node bin/cli.js search",
+    "save": "node bin/cli.js save",
+    "update": "node bin/cli.js update",
+    "delete": "node bin/cli.js delete",
+    "sync-instincts": "node scripts/sync-instincts.js",
+    "test": "node scripts/test.js"
+  },
+  "dependencies": {
+    "@lancedb/lancedb": "^0.37.1",
+    "apache-arrow": "^18.1.0"
+  },
+  "keywords": [
+    "antigravity",
+    "vector-memory",
+    "lancedb",
+    "ollama",
+    "nomic-embed-text"
+  ],
+  "author": "Electro ERP Antigravity Subsystem",
+  "license": "MIT"
+}

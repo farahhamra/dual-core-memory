@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "ecc.install.v1",
+  "installedAt": "2026-09-09T08:01:09.645Z",
+  "target": {
+    "id": "antigravity-project",
+    "target": "antigravity",
+    "kind": "project",
+    "root": "C:\\Backup\\WebScout\\.agents",
+    "installStatePath": "C:\\Backup\\WebScout\\.agents\\ecc-install-state.json"
+  },
+  "request": {
+    "profile": null,
+    "modules": [],
+    "includeComponents": [
+      "skill:continuous-learning-v2",
+      "skill:iterative-retrieval",
+      "skill:eval-harness",
+      "skill:tdd-workflow"
+    ],
+    "excludeComponents": [],
+    "legacyLanguages": [],
+    "legacyMode": false
+  },
+  "resolution": {
+    "selectedModules": [
+      "skill-continuous-learning-v2",
+      "skill-iterative-retrieval",
+      "skill-eval-harness",
+      "skill-tdd-workflow"
+    ],
+    "skippedModules": []
+  },
+  "source": {
+    "repoVersion": "2.2.0",
+    "repoCommit": null,
+    "manifestVersion": 1
+  },
+  "operations": [
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\SKILL.md",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\SKILL.md",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ddad12451a0d582c6ef1b197b7be193bef613cbc74eba4117fcb74fc7a4ecd00"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\agents\\observer-loop.sh",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\agents\\observer-loop.sh",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\agents\\observer-loop.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "22fdca58df493e7f0b1b03fbf25c3bfa0d75f3b16ee3ee47e8335ef282be85f6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\agents\\observer.md",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\agents\\observer.md",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\agents\\observer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "320d50ff2965efeabd6f07c2be134e11da160293e958c1bc27c309d613839ad2"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\agents\\session-guardian.sh",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\agents\\session-guardian.sh",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\agents\\session-guardian.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ee6e4c0990f8d538cae1c85aa194e01e9ca2336e5d993ef68eb608b96cb0d82c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\agents\\start-observer.sh",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\agents\\start-observer.sh",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\agents\\start-observer.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1f9a22da11e23d3551b8f8d0951a656150a532b326818627d9914ffd484a86e6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\config.json",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\config.json",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\config.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6f17e7a99aafe252ecd0b9212fb5f606be50b8ce1685f5a6435e46e87ffeb970"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\hooks\\observe.sh",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\hooks\\observe.sh",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\hooks\\observe.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "90575005307d1df31166a2da239cf8c362608524f6aeaa849df3d0b4e3e35f79"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\scripts\\detect-project.sh",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\scripts\\detect-project.sh",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\scripts\\detect-project.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "43215ad15ce0c6585c13b1c45cbba6bf8df0dc459b663ddca77c0b86c459c283"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\scripts\\instinct-cli.py",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\scripts\\instinct-cli.py",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\scripts\\instinct-cli.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "77656777c5552c33e400f237fb59fce265fa6c5894ebe3335c04eb60f7069bb9"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\scripts\\lib\\homunculus-dir.sh",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\scripts\\lib\\homunculus-dir.sh",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\scripts\\lib\\homunculus-dir.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "99dfa99ae0f7c6e2e15ed5b5bf3c46e91a5f089f4060ba93d5da5e85e04fd308"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\scripts\\migrate-homunculus.sh",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\scripts\\migrate-homunculus.sh",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\scripts\\migrate-homunculus.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "34f121c143a676d330f06209618aae8cb08f8155298cb5fa70c893314bf9b303"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-continuous-learning-v2",
+      "sourcePath": "C:\\Users\\hamra\\AppData\\Local\\npm-cache\\_npx\\61691c92fb7cf3b1\\node_modules\\ecc-universal\\skills\\continuous-learning-v2\\scripts\\test_parse_instinct.py",
+      "sourceRelativePath": "skills\\continuous-learning-v2\\scripts\\test_parse_instinct.py",
+      "destinationPath": "C:\\Backup\\WebScout\\.agents\\skills\\continuous-learning-v2\\scripts\\test_parse_instinct.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "acf556e8a8023347b35988bb490927a4e9f65f2579b03f26cad610687656605b"
+    }
+  ]
+}
