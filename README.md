@@ -34,7 +34,6 @@ dual-core-memory/
 └── .agents/
     ├── rules/
     │   └── memory-standing-rules.md         # Standing operational memory contract
-    ├── ecc-install-state.json               # ECC module installation manifest
     └── skills/
         ├── continuous-learning-v2/          # Procedural habits & hook observation
         ├── vector-memory/                   # LanceDB semantic vector storage
