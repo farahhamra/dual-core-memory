@@ -30,6 +30,7 @@ An advanced local AI agent workspace equipped with a **dual-core memory architec
 ```text
 dual-core-memory/
 ├── README.md                                # Repository overview
+├── LICENSE                                  # Open source MIT License
 ├── .gitignore                               # Ignore rules (__pycache__, local LanceDB binaries)
 └── .agents/
     ├── rules/
@@ -176,4 +177,4 @@ python tests/evals/test_self_learning_loop.py
 
 ## License
 
-MIT
+This project is open source and available under the [MIT License](LICENSE) © 2026 Farah Hamra.
